@@ -1,6 +1,15 @@
 const search = require('./scraper');
 const express = require('express');
+const MongoClient = require('mongodb').MongoClient;
 const app = express();
+
+const url = 'mongodb://localhost:27017/ddg'
+
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  console.log('Database created!')
+  db.close()
+})
 
 app.get('/api/ddg', (req, res) => {
   console.log(`Received query for: ${req.query.q}`);
