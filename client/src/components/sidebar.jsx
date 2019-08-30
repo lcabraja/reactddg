@@ -3,29 +3,44 @@ import React, { Component } from 'react';
 class sidebar extends Component {
   constructor(props) {
     super(props);
-    this.state = { persistance: [{ count: 1 }] };
+    this.state = {
+      persistance: this.props.persistance
+    };
     this.renderPersistance = this.renderPersistance.bind(this);
+    this.makeButton = this.makeButton.bind(this);
+  }
+
+  makeButton(data) {
+    console.log(data)
+    return (
+      <li key={data._id}>
+        <p>
+          <button
+            onClick={() => {
+              this.props.fillText(data.query);
+              this.props.getResults();
+            }}
+          >
+            {data.query}
+          </button>
+        </p>
+      </li>
+    );
   }
 
   renderPersistance() {
-    if (this.state.results === 0)
-      return (
-        <ul>
-          {this.props.persistance.map((result, index) => (
-            <li key={result.count}>
-              <p>
-                {result.search}
-                <button onClick={this.props.fillText} />
-              </p>
-            </li>
-          ))}{' '}
-        </ul>
-      );
+    if (this.props.persistance === null)
+      return <p>No history</p>;
+    return (
+      <ul>
+        {this.props.persistance.map(this.makeButton)}
+      </ul>
+    );
   }
 
   render() {
     return (
-      <div className="container bg-primary float-right">
+      <div className="container">
         {this.renderPersistance()}
       </div>
     );

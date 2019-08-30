@@ -8,7 +8,7 @@ class searchbar extends Component {
 
   render() {
     return (
-      <div className="container float-left">
+      <div className="container">
         <ul>
           {this.props.results.map((result, index) => (
             <li key={index}>
