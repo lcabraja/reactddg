@@ -10,7 +10,9 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.renderResults = this.renderResults.bind(this);
     this.renderHistory = this.renderHistory.bind(this);
+    this.deleteHistory = this.deleteHistory.bind(this);
     this.getResults = this.getResults.bind(this);
+    this.getHistory = this.getHistory.bind(this);
   }
 
   state = {
@@ -41,33 +43,49 @@ class App extends Component {
     await this.setState({ persistance: resp.data || null });
   }
 
+  async deleteHistory() {
+    await axios.get('/api/history', {
+      params: { q: 'delete', format: 'json' }
+    });
+    await this.setState({ persistance: [], results: [] });
+  }
+
   renderResults() {
     if (this.state.results === 0)
-      return (
-        <p className="h1">No Results from API</p>,
-        console.log('Got Empty Array')
-      );
+      return <Results value={[]} results={[]} />;
     return <Results value={this.state.value} results={this.state.results} />;
   }
 
   renderHistory() {
     if (this.state.persistance === 0)
-      return (
-        <p className="h1">No Results from API</p>,
-        console.log('Got Empty Array')
-      );
-    return <Sidebar persistance={this.state.persistance} fillText={this.fillText} getResults={this.getResults}/>;
+      return <Sidebar persistance={[]}/>;
+    return (
+    <Sidebar
+      persistance={this.state.persistance} 
+      fillText={this.fillText} 
+      getResults={this.getResults} 
+      getHistory={this.getHistory} 
+      deleteHistory={this.deleteHistory} 
+      reload={this.renderHistory}
+    />
+    );
   }
 
   render() {
     return (
       <React.Fragment>
         <Navbar 
+          fillText={this.fillText}
           getResults={this.getResults}
           value={this.state.value}
-          handleChange={this.handleChange}/>
-        {this.renderResults()}
-        {this.renderHistory()}
+          handleChange={this.handleChange}
+        />
+        <div className='container-fluid'>
+          <div className='row'>
+            {this.renderResults()}
+            {this.renderHistory()}
+          </div>
+        </div>
       </React.Fragment>
     );
   }

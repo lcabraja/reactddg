@@ -9,6 +9,7 @@ class Navbar extends Component {
 
   handleSubmit(event) {
     this.props.getResults();
+    this.props.fillText('');
     if(event.preventDefault) event.preventDefault();
   }
 

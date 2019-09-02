@@ -4,13 +4,15 @@ const db = require('./db');
 
 const app = express();
 const { search, processData } = scraper;
-const { upload, download } = db;
+const { upload, download, prune } = db;
 
-app.get('/api/history', // returns an array containing previous search requests
+app.get('/api/history', // returns an array containing previous search requests, if prompted to will delete all of aforementioned search requests
 async function (req, res) {
+  if (req.query.q === 'delete')
+    await prune();
   return Promise.resolve()
   .then(() => download())
-  .then(queries => res.status(200).json(queries))
+  .then(queries => res.status(200).json(queries.reverse()))
   .catch(error => console.log('Something went wrong in API: ', error.error))
 })
 

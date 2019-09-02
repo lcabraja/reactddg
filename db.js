@@ -38,7 +38,13 @@ const download = async function () {
     return await Query.listQueries();
 }
 
+const prune = async function () {
+  console.log('Pruning History...')
+  await Query.collection.remove();
+}
+
 module.exports = {
     upload,
-    download
+    download,
+    prune
 }
