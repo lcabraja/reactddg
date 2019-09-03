@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class searchbar extends Component {
+class results extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -28,4 +28,4 @@ class searchbar extends Component {
   }
 }
 
-export default searchbar;
+export default results;

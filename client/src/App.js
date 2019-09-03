@@ -3,6 +3,7 @@ import Navbar from './components/navbar.jsx';
 import Results from './components/results.jsx'
 import Sidebar from './components/sidebar.jsx';
 import axios from 'axios';
+const querystring = require('querystring');
 
 class App extends Component {
   constructor() {
@@ -29,11 +30,19 @@ class App extends Component {
     this.setState({ value: event.target.value });
   }
 
-  async getResults() {
-    console.log(`Getting results for: ${this.state.value}...`)
-    const resp = await axios.get('/api/ddg', {
-      params: { q: this.state.value, format: 'json' }
-    });
+  async getResults(httprequest) {
+    console.log(`Getting ${httprequest.toUpperCase()} results for: ${this.state.value}...`)
+    let resp = null;
+    if (httprequest === 'get') {
+      resp = await axios.get('/api/ddg', {
+        params: { q: this.state.value, format: 'json' }
+      });
+    }
+      else
+    {
+      resp = await axios.post('/api/ddg', {q: this.state.value});
+    }
+
     this.setState({ results: resp.data || null });
     this.getHistory()
   }

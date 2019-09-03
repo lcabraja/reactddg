@@ -30,6 +30,7 @@ const upload = async function (q, t = null, r = null) {
         title: t,
         results: r
     }
+    if (/^\s*$/.test(q)) return;
     await Query.addQuery(data);
     console.log(`Added search: '${q}' to db...`);
 }

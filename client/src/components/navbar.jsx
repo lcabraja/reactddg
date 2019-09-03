@@ -4,11 +4,22 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
     
+    this.state = {
+      radioState: "get"
+    }
+
+    this.handleRadio = this.handleRadio.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  handleRadio(event) {
+    this.setState({
+      radioState: event.target.value
+    });
+  };
+
   handleSubmit(event) {
-    this.props.getResults();
+    this.props.getResults(this.state.radioState);
     this.props.fillText('');
     if(event.preventDefault) event.preventDefault();
   }
@@ -38,6 +49,35 @@ class Navbar extends Component {
               Search
             </button>
           </form>
+          <div 
+            className="btn-group btn-group-toggle m-2" 
+            data-toggle="buttons"
+          > 
+            <label className={"btn btn-secondary " + ((this.state.radioState === "get") && "active")}>
+              <input 
+                type="radio" 
+                name="options" 
+                value="get" 
+                autoComplete="off" 
+                checked={this.state.radioState === "get"}
+                //onClick={this.handleClick}
+                onChange={this.handleRadio}  
+              /> 
+                GET
+            </label>
+              <label className={"btn btn-secondary " + ((this.state.radioState === "post") && "active")}>
+                <input 
+                  type="radio" 
+                  name="options" 
+                  value="post" 
+                  autoComplete="off" 
+                  checked={this.state.radioState === "post"}
+                  //onClick={this.handleClick}
+                  onChange={this.handleRadio} 
+                /> 
+              POST
+            </label>
+          </div>
         </div>
       </React.Fragment>
     );
