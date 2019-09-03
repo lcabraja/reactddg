@@ -5,7 +5,7 @@ DuckDuckGo Search Box using GET requests, Express &amp; React
 ### Prerequisites: 
 + [Node.js](https://nodejs.org/en/)
 + Unused Ports 3000 & 5000
-+ MongoDB open on port 27017
++ [MongoDB](https://www.mongodb.com/download-center/community) open on port 27017
 
 ### Setup:
 1. After Unzipping cd into master directory
